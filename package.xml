@@ -1,7 +1,7 @@
 <package format="3">
-  <name>image_transport_tutorials</name>
+  <name>image_transport_custom</name>
   <version>0.0.0</version>
-  <description>Tutorials for image_transport.</description>
+  <description>Custom image_transport.</description>
   <author>Vincent Rabaud</author>
   <maintainer email="jacob@openrobotics.org">Jacob Perron</maintainer>
   <license>Apache 2.0</license>
