@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "image_transport_tutorials/resized_subscriber.hpp"
+#include "image_transport_custom/resized_subscriber.hpp"
 
 #include <memory>
 
@@ -21,7 +21,7 @@
 #include "opencv2/imgproc.hpp"
 
 void ResizedSubscriber::internalCallback(
-  const image_transport_tutorials::msg::ResizedImage::ConstSharedPtr & msg,
+  const image_transport_custom::msg::ResizedImage::ConstSharedPtr & msg,
   const Callback & user_cb)
 {
   // This is only for optimization, not to copy the image
