@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <sstream>
+#include <string>
 
 #include "cv_bridge/cv_bridge.h"
 #include "image_transport/image_transport.hpp"
@@ -31,9 +32,11 @@ int main(int argc, char ** argv)
 
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions options;
-  rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared("image_publisher", options);
+  std::string nodeName = "image_publisher_"; nodeName.append(argv[1]);
+  rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared(nodeName, options);
   image_transport::ImageTransport it(node);
-  image_transport::Publisher pub = it.advertise("camera/image", 1);
+  std::string nodeTopic = "camera/image_"; nodeTopic.append(argv[1]);
+  image_transport::Publisher pub = it.advertise(nodeTopic, 1);
 
   // Convert the command line parameter index for the video device to an integer
   std::istringstream video_sourceCmd(argv[1]);
@@ -59,6 +62,15 @@ int main(int argc, char ** argv)
     // Check if grabbed frame is actually full with some content
     if (!frame.empty()) {
       msg = cv_bridge::CvImage(hdr, "bgr8", frame).toImageMsg();
+      // Do some post-processing
+    /*
+        // Rescale image
+        double subsampling_factor = 2.0;
+        int new_width = cv_image.cols / subsampling_factor + 0.5;
+        int new_height = cv_image.rows / subsampling_factor + 0.5;
+        cv::Mat buffer;
+        cv::resize(cv_image, buffer, cv::Size(new_width, new_height));
+    */
       pub.publish(msg);
       cv::waitKey(1);
     }
